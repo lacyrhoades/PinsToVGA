@@ -38,3 +38,59 @@ Actual pinout:
 18) Output voltage for LCD driving
 19) Backlight 5V
 29) Backlight ground
+
+# Memory Storage in C
+
+128px wide = 16 bytes
+64 lines = 64 rows
+
+byte buffer[64][16] = {}
+
+# Scaled to 640x480
+
+128x64 @ 5x
+
+128 * 5 = 640
+64 * 5 = 320
+
+Vertical back porch lines 33
+Vertical front porch lines 10
+Vertical line count 525
+
+33 + (525 - 33 - 10 - 320 / 2)
+33 + 81 = 114
+Start drawing at line 115
+
+# VGA Spec on Teensy 3.2
+
+Teensy 3.2 @ 96 MHz
+
+Vertical Sync (frames):
+
+60 Hz
+64µs low sync pulse
+Normal high
+
+525 Total Lines
+2 sync pulse lines
+33 back porch lines
+480 visible lines
+10 front porch lines
+
+
+
+Horizontal Sync (lines):
+
+85 nops
+3.8 µs (sync pulse)
+
+39 nops
+33 pixels
+1.92 µs (back porch)
+
+611 register writes
+or 603 nops
+25.4µs (draw time)
+
+10 nops
+640ns (front porch)
