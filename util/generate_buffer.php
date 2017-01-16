@@ -1,5 +1,7 @@
 <?php
 
+// Generates an array literal of random bytes in c syntax
+
 $rows = 64;
 $cols = 16;
 
